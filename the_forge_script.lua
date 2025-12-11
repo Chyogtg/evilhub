@@ -66,7 +66,7 @@ local enemyTypes = {
     "NPC"
 }
 
--- UI Setup
+-- UI Setup with Demonic Red Effects
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "EVILHUB"
 screenGui.ResetOnSpawn = false
@@ -75,7 +75,7 @@ screenGui.Parent = player:WaitForChild("PlayerGui")
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 350, 0, 550)
 mainFrame.Position = UDim2.new(0, 10, 0, 10)
-mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mainFrame.BackgroundColor3 = Color3.fromRGB(10, 0, 0)
 mainFrame.BorderSizePixel = 0
 mainFrame.Parent = screenGui
 
@@ -83,28 +83,62 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 10)
 corner.Parent = mainFrame
 
+-- Glowing red border with pulsing effect
 local border = Instance.new("UIStroke")
 border.Color = Color3.fromRGB(255, 0, 0)
-border.Thickness = 2
+border.Thickness = 3
+border.Transparency = 0.3
 border.Parent = mainFrame
+
+-- Pulsing glow effect on border
+spawn(function()
+    while true do
+        for i = 0.3, 0.8, 0.05 do
+            border.Transparency = i
+            wait(0.1)
+        end
+        for i = 0.8, 0.3, -0.05 do
+            border.Transparency = i
+            wait(0.1)
+        end
+    end
+end)
 
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 45)
-title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+title.BackgroundColor3 = Color3.fromRGB(15, 0, 0)
 title.Text = "EVIL HUB"
 title.TextColor3 = Color3.fromRGB(255, 0, 0)
-title.TextSize = 24
+title.TextSize = 26
 title.Font = Enum.Font.GothamBold
+title.TextStrokeTransparency = 0.5
+title.TextStrokeColor3 = Color3.fromRGB(139, 0, 0)
 title.Parent = mainFrame
 
 local titleCorner = Instance.new("UICorner")
 titleCorner.CornerRadius = UDim.new(0, 10)
 titleCorner.Parent = title
 
+-- Glowing red border on title
 local titleBorder = Instance.new("UIStroke")
 titleBorder.Color = Color3.fromRGB(255, 0, 0)
-titleBorder.Thickness = 2
+titleBorder.Thickness = 3
+titleBorder.Transparency = 0.2
 titleBorder.Parent = title
+
+-- Pulsing title glow
+spawn(function()
+    while true do
+        for i = 0.2, 0.6, 0.03 do
+            titleBorder.Transparency = i
+            wait(0.08)
+        end
+        for i = 0.6, 0.2, -0.03 do
+            titleBorder.Transparency = i
+            wait(0.08)
+        end
+    end
+end)
 
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Size = UDim2.new(1, -20, 1, -60)
@@ -112,6 +146,7 @@ scrollFrame.Position = UDim2.new(0, 10, 0, 55)
 scrollFrame.BackgroundTransparency = 1
 scrollFrame.BorderSizePixel = 0
 scrollFrame.ScrollBarThickness = 5
+scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(139, 0, 0)
 scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 scrollFrame.Parent = mainFrame
 
@@ -123,11 +158,11 @@ layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     scrollFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
 end)
 
--- Toggle Functions
+-- Toggle Functions with Evil Hub Red Theme
 local function createToggle(name, default, callback)
     local toggleFrame = Instance.new("Frame")
     toggleFrame.Size = UDim2.new(1, 0, 0, 35)
-    toggleFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    toggleFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
     toggleFrame.BorderSizePixel = 0
     toggleFrame.Parent = scrollFrame
     
@@ -135,11 +170,18 @@ local function createToggle(name, default, callback)
     toggleCorner.CornerRadius = UDim.new(0, 5)
     toggleCorner.Parent = toggleFrame
     
+    -- Red glow border on toggle frame
+    local toggleBorder = Instance.new("UIStroke")
+    toggleBorder.Color = Color3.fromRGB(139, 0, 0)
+    toggleBorder.Thickness = 1.5
+    toggleBorder.Transparency = 0.5
+    toggleBorder.Parent = toggleFrame
+    
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(0.7, 0, 1, 0)
     label.BackgroundTransparency = 1
     label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextColor3 = Color3.fromRGB(255, 100, 100)
     label.TextSize = 14
     label.Font = Enum.Font.Gotham
     label.TextXAlignment = Enum.TextXAlignment.Left
@@ -153,7 +195,7 @@ local function createToggle(name, default, callback)
     toggleButton.Size = UDim2.new(0, 60, 0, 25)
     toggleButton.Position = UDim2.new(1, -70, 0.5, 0)
     toggleButton.AnchorPoint = Vector2.new(0, 0.5)
-    toggleButton.BackgroundColor3 = default and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    toggleButton.BackgroundColor3 = default and Color3.fromRGB(0, 139, 0) or Color3.fromRGB(139, 0, 0)
     toggleButton.Text = default and "ON" or "OFF"
     toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     toggleButton.TextSize = 12
@@ -164,9 +206,22 @@ local function createToggle(name, default, callback)
     buttonCorner.CornerRadius = UDim.new(0, 5)
     buttonCorner.Parent = toggleButton
     
+    -- Red glow on toggle button
+    local buttonBorder = Instance.new("UIStroke")
+    buttonBorder.Color = default and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    buttonBorder.Thickness = 2
+    buttonBorder.Transparency = 0.3
+    buttonBorder.Parent = toggleButton
+    
     toggleButton.MouseButton1Click:Connect(function()
         default = not default
-        toggleButton.BackgroundColor3 = default and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        if default then
+            toggleButton.BackgroundColor3 = Color3.fromRGB(0, 139, 0)
+            buttonBorder.Color = Color3.fromRGB(0, 255, 0)
+        else
+            toggleButton.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+            buttonBorder.Color = Color3.fromRGB(255, 0, 0)
+        end
         toggleButton.Text = default and "ON" or "OFF"
         if callback then callback(default) end
     end)
@@ -174,11 +229,11 @@ local function createToggle(name, default, callback)
     return function() return default end
 end
 
--- Dropdown Function
+-- Dropdown Function with Red Theme
 local function createDropdown(name, options, default, callback)
     local dropdownFrame = Instance.new("Frame")
     dropdownFrame.Size = UDim2.new(1, 0, 0, 40)
-    dropdownFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    dropdownFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
     dropdownFrame.BorderSizePixel = 0
     dropdownFrame.Parent = scrollFrame
     
@@ -186,11 +241,18 @@ local function createDropdown(name, options, default, callback)
     dropdownCorner.CornerRadius = UDim.new(0, 5)
     dropdownCorner.Parent = dropdownFrame
     
+    -- Red border on dropdown
+    local dropdownBorder = Instance.new("UIStroke")
+    dropdownBorder.Color = Color3.fromRGB(139, 0, 0)
+    dropdownBorder.Thickness = 1.5
+    dropdownBorder.Transparency = 0.5
+    dropdownBorder.Parent = dropdownFrame
+    
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(0.5, 0, 1, 0)
     label.BackgroundTransparency = 1
     label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextColor3 = Color3.fromRGB(255, 100, 100)
     label.TextSize = 13
     label.Font = Enum.Font.Gotham
     label.TextXAlignment = Enum.TextXAlignment.Left
@@ -204,12 +266,19 @@ local function createDropdown(name, options, default, callback)
     dropdownButton.Size = UDim2.new(0.45, -10, 0, 30)
     dropdownButton.Position = UDim2.new(0.5, 5, 0.5, 0)
     dropdownButton.AnchorPoint = Vector2.new(0, 0.5)
-    dropdownButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    dropdownButton.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
     dropdownButton.Text = default
-    dropdownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    dropdownButton.TextColor3 = Color3.fromRGB(255, 150, 150)
     dropdownButton.TextSize = 12
     dropdownButton.Font = Enum.Font.Gotham
     dropdownButton.Parent = dropdownFrame
+    
+    -- Red border on dropdown button
+    local buttonBorder = Instance.new("UIStroke")
+    buttonBorder.Color = Color3.fromRGB(255, 0, 0)
+    buttonBorder.Thickness = 1.5
+    buttonBorder.Transparency = 0.4
+    buttonBorder.Parent = dropdownButton
     
     local buttonCorner = Instance.new("UICorner")
     buttonCorner.CornerRadius = UDim.new(0, 5)
@@ -227,7 +296,7 @@ local function createDropdown(name, options, default, callback)
             dropdownList = Instance.new("Frame")
             dropdownList.Size = UDim2.new(0, dropdownButton.AbsoluteSize.X, 0, math.min(#options * 25, 150))
             dropdownList.Position = UDim2.new(0, dropdownButton.AbsolutePosition.X - dropdownFrame.AbsolutePosition.X, 0, 40)
-            dropdownList.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            dropdownList.BackgroundColor3 = Color3.fromRGB(15, 0, 0)
             dropdownList.BorderSizePixel = 0
             dropdownList.Parent = dropdownFrame
             dropdownList.ZIndex = 10
@@ -235,6 +304,13 @@ local function createDropdown(name, options, default, callback)
             local listCorner = Instance.new("UICorner")
             listCorner.CornerRadius = UDim.new(0, 5)
             listCorner.Parent = dropdownList
+            
+            -- Red border on dropdown list
+            local listBorder = Instance.new("UIStroke")
+            listBorder.Color = Color3.fromRGB(255, 0, 0)
+            listBorder.Thickness = 2
+            listBorder.Transparency = 0.3
+            listBorder.Parent = dropdownList
             
             local listLayout = Instance.new("UIListLayout")
             listLayout.Padding = UDim.new(0, 2)
@@ -244,12 +320,19 @@ local function createDropdown(name, options, default, callback)
                 local optionButton = Instance.new("TextButton")
                 optionButton.Size = UDim2.new(1, -10, 0, 23)
                 optionButton.Position = UDim2.new(0, 5, 0, 0)
-                optionButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                optionButton.BackgroundColor3 = Color3.fromRGB(25, 0, 0)
                 optionButton.Text = option
-                optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                optionButton.TextColor3 = Color3.fromRGB(255, 150, 150)
                 optionButton.TextSize = 11
                 optionButton.Font = Enum.Font.Gotham
                 optionButton.Parent = dropdownList
+                
+                -- Red border on option buttons
+                local optionBorder = Instance.new("UIStroke")
+                optionBorder.Color = Color3.fromRGB(139, 0, 0)
+                optionBorder.Thickness = 1
+                optionBorder.Transparency = 0.6
+                optionBorder.Parent = optionButton
                 
                 local optionCorner = Instance.new("UICorner")
                 optionCorner.CornerRadius = UDim.new(0, 3)
@@ -266,11 +349,11 @@ local function createDropdown(name, options, default, callback)
     end)
 end
 
--- Slider Function
+-- Slider Function with Red Theme
 local function createSlider(name, min, max, default, callback)
     local sliderFrame = Instance.new("Frame")
     sliderFrame.Size = UDim2.new(1, 0, 0, 50)
-    sliderFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    sliderFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
     sliderFrame.BorderSizePixel = 0
     sliderFrame.Parent = scrollFrame
     
@@ -278,12 +361,19 @@ local function createSlider(name, min, max, default, callback)
     sliderCorner.CornerRadius = UDim.new(0, 5)
     sliderCorner.Parent = sliderFrame
     
+    -- Red border on slider frame
+    local sliderBorder = Instance.new("UIStroke")
+    sliderBorder.Color = Color3.fromRGB(139, 0, 0)
+    sliderBorder.Thickness = 1.5
+    sliderBorder.Transparency = 0.5
+    sliderBorder.Parent = sliderFrame
+    
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(1, -20, 0, 20)
     label.Position = UDim2.new(0, 10, 0, 5)
     label.BackgroundTransparency = 1
     label.Text = name .. ": " .. default
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextColor3 = Color3.fromRGB(255, 100, 100)
     label.TextSize = 13
     label.Font = Enum.Font.Gotham
     label.TextXAlignment = Enum.TextXAlignment.Left
@@ -292,7 +382,7 @@ local function createSlider(name, min, max, default, callback)
     local sliderTrack = Instance.new("Frame")
     sliderTrack.Size = UDim2.new(1, -20, 0, 5)
     sliderTrack.Position = UDim2.new(0, 10, 0, 30)
-    sliderTrack.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    sliderTrack.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
     sliderTrack.BorderSizePixel = 0
     sliderTrack.Parent = sliderFrame
     
@@ -310,13 +400,27 @@ local function createSlider(name, min, max, default, callback)
     fillCorner.CornerRadius = UDim.new(0, 3)
     fillCorner.Parent = sliderFill
     
+    -- Glowing effect on slider fill
+    local fillGlow = Instance.new("UIStroke")
+    fillGlow.Color = Color3.fromRGB(255, 100, 100)
+    fillGlow.Thickness = 2
+    fillGlow.Transparency = 0.5
+    fillGlow.Parent = sliderFill
+    
     local sliderButton = Instance.new("TextButton")
     sliderButton.Size = UDim2.new(0, 15, 0, 15)
     sliderButton.Position = UDim2.new((default - min) / (max - min), 0, 0.5, 0)
     sliderButton.AnchorPoint = Vector2.new(0.5, 0.5)
-    sliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    sliderButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
     sliderButton.Text = ""
     sliderButton.Parent = sliderTrack
+    
+    -- Red glow on slider button
+    local buttonGlow = Instance.new("UIStroke")
+    buttonGlow.Color = Color3.fromRGB(255, 150, 150)
+    buttonGlow.Thickness = 2
+    buttonGlow.Transparency = 0.3
+    buttonGlow.Parent = sliderButton
     
     local buttonCorner = Instance.new("UICorner")
     buttonCorner.CornerRadius = UDim.new(0, 7)
